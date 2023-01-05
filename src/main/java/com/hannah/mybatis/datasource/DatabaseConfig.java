@@ -6,7 +6,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -21,22 +20,6 @@ import java.util.Map;
 @Configuration
 @MapperScan(value = "com.hannah.mybatis.mapper")
 public class DatabaseConfig {
-
-
-    @Bean("routeDataSource")
-    public DataSource routeDataSource() {
-
-        Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put(DataSourceType.DATABASE_1, dataSource1());
-        targetDataSources.put(DataSourceType.DATABASE_2, dataSource2());
-        targetDataSources.put(DataSourceType.DATABASE_3, dataSource3());
-
-        RoutingDataSource dataSourceRouter = new RoutingDataSource();
-        dataSourceRouter.setTargetDataSources(targetDataSources);
-        dataSourceRouter.setDefaultTargetDataSource(dataSource2());     //default 데이터소스
-
-        return dataSourceRouter;
-    }
 
     @Bean
     @ConfigurationProperties(prefix = "datasource.database1")
@@ -57,6 +40,24 @@ public class DatabaseConfig {
     }
 
 
+    /**
+     * 동적으로 타켓 dataSource가 변경되는 DataSource
+     * @return
+     */
+    @Bean("routeDataSource")
+    public DataSource routeDataSource() {
+
+        Map<Object, Object> targetDataSources = new HashMap<>();
+        targetDataSources.put(DataSourceType.DATABASE_1, dataSource1());
+        targetDataSources.put(DataSourceType.DATABASE_2, dataSource2());
+        targetDataSources.put(DataSourceType.DATABASE_3, dataSource3());
+
+        RoutingDataSource dataSourceRouter = new RoutingDataSource();
+        dataSourceRouter.setTargetDataSources(targetDataSources);
+        dataSourceRouter.setDefaultTargetDataSource(dataSource2());     //default 데이터소스
+
+        return dataSourceRouter;
+    }
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
