@@ -13,7 +13,7 @@ datasource:
     password: 1234
 
   database3:
-    jdbc-url: jdbc:postgresql://localhost:5432/postgres
+    jdbc-url: jdbc:postgresql://localhost:5432/database3
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: 1234
