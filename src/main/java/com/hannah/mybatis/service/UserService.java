@@ -1,9 +1,7 @@
 package com.hannah.mybatis.service;
 
 
-import com.hannah.mybatis.datasource.RoutingDatabaseContextHolder;
 import com.hannah.mybatis.entity.User;
-import com.hannah.mybatis.enumeration.DataSourceType;
 import com.hannah.mybatis.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,5 +17,10 @@ public class UserService {
 
     public List<User> getAllUsers() {
         return userMapper.findAll();
+    }
+    
+    
+    public User getUser(long id) {
+        return userMapper.findById(id).orElse(null);
     }
 }
