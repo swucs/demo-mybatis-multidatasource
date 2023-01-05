@@ -49,7 +49,7 @@ datasource:
     password: 1234
 ```
 
-## 4. RoutingDatabaseContextHolder 구성 : ThreadLoad을 사용하여 DatabaseType을 지정
+## 4. RoutingDatabaseContextHolder 구성 : ThreadLocal을 사용하여 DatabaseType을 지정
 ```java
 public enum DataSourceType {
     DATABASE_1
