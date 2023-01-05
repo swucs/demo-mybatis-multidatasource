@@ -5,6 +5,7 @@ import com.hannah.mybatis.entity.User;
 import com.hannah.mybatis.mapper.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,7 +21,12 @@ public class UserService {
     }
     
     
-    public User getUser(long id) {
-        return userMapper.findById(id).orElse(null);
+    public User getUserByName(String name) {
+        return userMapper.findById(name).orElse(null);
+    }
+
+    @Transactional
+    public void createUser(User user) {
+        userMapper.insert(user);
     }
 }
