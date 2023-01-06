@@ -97,6 +97,23 @@ class UserServiceTest {
 
     }
 
+
+    @Test
+    void testDynamicSql() {
+
+        RoutingDatabaseContextHolder.set(DataSourceType.DATABASE_2);
+
+        User searchParam = User.builder()
+                .name("potato")
+                .build();
+
+        List<User> users = userMapper.find(searchParam);
+
+
+        assertThat(users.size()).isEqualTo(1);
+
+    }
+
     @Test
     void getAllUsers() {
 

@@ -22,7 +22,7 @@ public class UserService {
     
     
     public User getUserByName(String name) {
-        return userMapper.findById(name).orElse(null);
+        return userMapper.findByName(name).orElse(null);
     }
 
     @Transactional

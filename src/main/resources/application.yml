@@ -17,3 +17,13 @@ datasource:
     driver-class-name: org.postgresql.Driver
     username: postgres
     password: 1234
+
+
+decorator:
+  datasource:
+    p6spy:
+      enable-logging: true
+
+
+
+

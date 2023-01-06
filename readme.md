@@ -227,3 +227,39 @@ public class UserService {
     }
 }
 ```
+
+# 10. 트랜잭션 사용시 주의 할점
+- Transaction이 시작되기 전에(보통은 @Transactional이 걸리기 전)에 먼저 사용할 DB를 지정하는 작업이 선행돼야 한다.
+- DB가 변경되는 매 요청마다 트랜잭션을 안 걸어주면 한번 요청에 여러 DB접속이 필요할 경우 최초의 connection을 재사용하기 때문에 여러 DB 접속이 안된다.
+- https://groups.google.com/g/ksug/c/W7QVc8lyyWQ
+
+#11. Mybatis
+- XML 없이 Mapper Interface에서 쿼리 작성 가능
+```java
+    @Delete("DELETE FROM tb_user")
+    void deleteAll();
+```
+- Dynamic SQL : jdbcTemplate 쓰는게 더 낫지 않겠냐는 생각
+```java
+    @Select("""
+            <script>
+                SELECT
+                        id
+                        , name
+                        , age
+                        , address
+                        , email_address
+                FROM    tb_user
+                <where>
+                    <if test="name != null">
+                    AND   name = #{name}
+                    </if>
+                    <if test="age != null">
+                    AND   age = #{age}
+                    </if>
+                </where>
+            </script>
+        """)
+    List<User> find(User user);
+```
+
