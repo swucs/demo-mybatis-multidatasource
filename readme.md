@@ -155,8 +155,12 @@ public class DatabaseConfig {
 ```
 
 ## 7. mybatis-config.xml : 조회결과를 camelCase로 변환 설정
-- 이 설정이 없는 경우 select 쿼리에 반환컬럼을 Alias로 camelCase로 지정하거나 resultMap을 설정해야 한다.
-- SELECT email_address AS emailAddress FROM tb_user
+- mapUnderscoreToCamelCase 설정이 없는 경우 select 쿼리에 반환컬럼을 Alias로 camelCase로 지정하거나 resultMap을 설정해야 한다.
+```sql
+SELECT 
+    email_address AS emailAddress 
+FROM tb_user
+```
 ```xml
 <settings>
     <!-- DB 조회결과 snake_case -> camelCase 변환 -->
