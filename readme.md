@@ -237,7 +237,7 @@ public class UserService {
 - DB가 변경되는 매 요청마다 트랜잭션을 안 걸어주면 한번 요청에 여러 DB접속이 필요할 경우 최초의 connection을 재사용하기 때문에 여러 DB 접속이 안된다.
 - https://groups.google.com/g/ksug/c/W7QVc8lyyWQ
 
-#11. Mybatis
+# 11. Mybatis
 - XML 없이 Mapper Interface에서 쿼리 작성 가능
 ```java
     @Delete("DELETE FROM tb_user")
