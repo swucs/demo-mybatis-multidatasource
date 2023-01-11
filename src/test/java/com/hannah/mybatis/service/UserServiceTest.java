@@ -4,10 +4,11 @@ import com.hannah.mybatis.datasource.RoutingDatabaseContextHolder;
 import com.hannah.mybatis.entity.User;
 import com.hannah.mybatis.enumeration.DataSourceType;
 import com.hannah.mybatis.mapper.UserMapper;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,8 +25,9 @@ class UserServiceTest {
     UserService userService;
 
 
-    @BeforeEach
-    void setup() {
+    @Test
+    @Transactional(propagation = Propagation.NEVER)
+    void deleteAll() {
 
         RoutingDatabaseContextHolder.set(DataSourceType.DATABASE_1);
         userMapper.deleteAll();
@@ -35,68 +37,21 @@ class UserServiceTest {
 
         RoutingDatabaseContextHolder.set(DataSourceType.DATABASE_3);
         userMapper.deleteAll();
-
-        createData();
     }
 
+
+    @Test
+    @Transactional(propagation = Propagation.NEVER)
     void createData() {
         RoutingDatabaseContextHolder.set(DataSourceType.DATABASE_1);
-
-        User paul = User.builder()
-                .name("Paul")
-                .age(40)
-                .address("Washington DC.")
-                .emailAddress("paul@hotmail.com")
-                .build();
-        userService.createUser(paul);
-
-        User june = User.builder()
-                .name("june")
-                .age(13)
-                .address("New york")
-                .emailAddress("june@hotmail.com")
-                .build();
-        userService.createUser(june);
-
-        User mary = User.builder()
-                .name("mary")
-                .age(28)
-                .address("Seoul")
-                .emailAddress("mary@hotmail.com")
-                .build();
-        userService.createUser(mary);
+        userService.createDatabase1();
 
         RoutingDatabaseContextHolder.set(DataSourceType.DATABASE_2);
-
-        User potato = User.builder()
-                .name("potato")
-                .age(45)
-                .address("Washington DC.")
-                .emailAddress("paul@naver.com")
-                .build();
-        userService.createUser(potato);
-
-        User joshua = User.builder()
-                .name("joshua")
-                .age(32)
-                .address("Bundang gu")
-                .emailAddress("joshua@naver.com")
-                .build();
-        userService.createUser(joshua);
-
+        userService.createDatabase2();
 
         RoutingDatabaseContextHolder.set(DataSourceType.DATABASE_3);
-
-        User hannah = User.builder()
-                .name("hannah")
-                .age(45)
-                .address("Busan")
-                .emailAddress("hannah@hotmail.com")
-                .build();
-        userService.createUser(hannah);
-
+        userService.createDatabase3();
     }
-
 
     @Test
     void testDynamicSql() {
@@ -109,50 +64,38 @@ class UserServiceTest {
 
         List<User> users = userMapper.find(searchParam);
 
-
         assertThat(users.size()).isEqualTo(1);
 
     }
 
     @Test
+    @Transactional(propagation = Propagation.NEVER)
     void getAllUsers() {
 
         RoutingDatabaseContextHolder.set(DataSourceType.DATABASE_1);
 
         List<User> allUsers = userService.getAllUsers();
         System.out.println("##############################" + DataSourceType.DATABASE_1);
-        for (User user : allUsers) {
-            System.out.println("user = " + user);
-        }
-
-        System.out.println("RoutingDatabaseContextHolder.getDataSourceType() = " + RoutingDatabaseContextHolder.getDataSourceType());
-        
+        System.out.println("allUsers = " + allUsers);
         assertThat(allUsers.size()).isEqualTo(3);
 
 
         RoutingDatabaseContextHolder.set(DataSourceType.DATABASE_2);
-
         allUsers = userService.getAllUsers();
         System.out.println("##############################" + DataSourceType.DATABASE_2);
-        for (User user : allUsers) {
-            System.out.println("user = " + user);
-        }
+        System.out.println("allUsers = " + allUsers);
         assertThat(allUsers.size()).isEqualTo(2);
-        System.out.println("RoutingDatabaseContextHolder.getDataSourceType() = " + RoutingDatabaseContextHolder.getDataSourceType());
 
         RoutingDatabaseContextHolder.set(DataSourceType.DATABASE_3);
-
         allUsers = userService.getAllUsers();
         System.out.println("##############################" + DataSourceType.DATABASE_3);
-        for (User user : allUsers) {
-            System.out.println("user = " + user);
-        }
+        System.out.println("allUsers = " + allUsers);
         assertThat(allUsers.size()).isEqualTo(1);
-        System.out.println("RoutingDatabaseContextHolder.getDataSourceType() = " + RoutingDatabaseContextHolder.getDataSourceType());
     }
 
 
     @Test
+    @Transactional(propagation = Propagation.NEVER)
     void getUser() {
 
         RoutingDatabaseContextHolder.set(DataSourceType.DATABASE_1);
