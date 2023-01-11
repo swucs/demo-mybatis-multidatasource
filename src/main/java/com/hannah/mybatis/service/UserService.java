@@ -27,11 +27,10 @@ public class UserService {
         return userMapper.findByName(name).orElse(null);
     }
 
-    @Transactional(propagation = Propagation.NEVER)
+    @Transactional
     public void createUser(User user) {
-        createDatabase1();
+        userMapper.insert(user);
     }
-
 
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -64,7 +63,7 @@ public class UserService {
     }
 
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional
     public void createDatabase2() {
 
         User potato = User.builder()
@@ -86,7 +85,7 @@ public class UserService {
     }
 
 
-    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional
     public void createDatabase3() {
 
         User hannah = User.builder()

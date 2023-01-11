@@ -229,6 +229,77 @@ public class UserService {
     public User getUser(long id) {
         return userMapper.findById(id).orElse(null);
     }
+
+    @Transactional
+    public void createUser(User user) {
+        userMapper.insert(user);
+    }
+
+
+    @Transactional
+    public void createDatabase1() {
+
+        User paul = User.builder()
+                .name("Paul")
+                .age(40)
+                .address("Washington DC.")
+                .emailAddress("paul@hotmail.com")
+                .build();
+        userMapper.insert(paul);
+
+        User june = User.builder()
+                .name("june")
+                .age(13)
+                .address("New york")
+                .emailAddress("june@hotmail.com")
+                .build();
+        userMapper.insert(june);
+
+        User mary = User.builder()
+                .name("mary")
+                .age(28)
+                .address("Seoul")
+                .emailAddress("mary@hotmail.com")
+                .build();
+        userMapper.insert(mary);
+
+    }
+
+
+    @Transactional
+    public void createDatabase2() {
+
+        User potato = User.builder()
+                .name("potato")
+                .age(45)
+                .address("Washington DC.")
+                .emailAddress("paul@naver.com")
+                .build();
+        userMapper.insert(potato);
+
+        User joshua = User.builder()
+                .name("joshua")
+                .age(32)
+                .address("Bundang gu")
+                .emailAddress("joshua@naver.com")
+                .build();
+        userMapper.insert(joshua);
+
+    }
+
+
+    @Transactional
+    public void createDatabase3() {
+
+        User hannah = User.builder()
+                .name("hannah")
+                .age(45)
+                .address("Busan")
+                .emailAddress("hannah@hotmail.com")
+                .build();
+        userMapper.insert(hannah);
+
+    }
 }
 ```
 
